@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% block title %}ML Models | CreditSense{% endblock %}
+{% block content %}
+
+<div class="page-hero container">
+  <span class="kicker"><span class="dot"></span> Model Comparison</span>
+  <h1>The Machine Learning behind every decision</h1>
+  <p>Four algorithms were trained and benchmarked on the Credit Card Approval Prediction dataset, each with its own validation-tuned decision threshold. {{ primary_model }} was selected as the primary production model.</p>
+</div>
+
+<div class="container section-tight">
+
+  {% set model_meta = {
+    "Logistic Regression": {
+      "algorithm": "LogisticRegression", "type": "Linear",
+      "advantages": ["Simple, fast, and highly interpretable coefficients", "Low computational cost, ideal as a baseline", "Selected here for the best macro-F1 among models clearing the recall floor"],
+      "limitations": ["Assumes a linear decision boundary between classes", "Sensitive to unscaled or highly correlated features"]
+    },
+    "XGBoost": {
+      "algorithm": "XGBClassifier", "type": "Ensemble (Boosting)",
+      "advantages": ["Handles imbalanced data natively via scale_pos_weight", "Highly tunable via regularization parameters"],
+      "limitations": ["Requires the additional xgboost dependency", "More hyperparameters to tune than simpler models"]
+    },
+    "Random Forest": {
+      "algorithm": "RandomForestClassifier", "type": "Ensemble (Bagging)",
+      "advantages": ["Robust to outliers and non-linear feature relationships", "Provides built-in, interpretable feature importance"],
+      "limitations": ["Larger model size than simpler linear models", "Lower recall on the minority Rejected class on this dataset"]
+    },
+    "Decision Tree": {
+      "algorithm": "DecisionTreeClassifier", "type": "Single Tree",
+      "advantages": ["Extremely fast to train and to predict with", "Fully interpretable — decisions can be traced node by node"],
+      "limitations": ["High variance — sensitive to small changes in training data", "Prone to overfitting a single tree"]
+    }
+  } %}
+  {% set model_order = ["Logistic Regression","XGBoost","Random Forest","Decision Tree"] %}
+
+  <div class="model-tabs">
+    {% for name in model_order %}
+    <button class="model-tab {{ 'active' if name == primary_model }}" data-target="panel-{{ loop.index }}">
+      {{ name }}
+      {% if name == primary_model %}<span class="badge badge-success" style="margin-left:8px">Primary</span>{% endif %}
+    </button>
+    {% endfor %}
+  </div>
+
+  {% for name in model_order %}
+  {% set r = model_results[name] %}
+  {% set meta = model_meta[name] %}
+  <div class="model-panel {{ 'active' if name == primary_model }}" id="panel-{{ loop.index }}">
+    <div class="metric-row">
+      <div class="glass-card metric-pill"><div class="v">{{ r.accuracy }}%</div><div class="l">Accuracy</div></div>
+      <div class="glass-card metric-pill"><div class="v">{{ r.threshold }}</div><div class="l">Decision Threshold</div></div>
+      <div class="glass-card metric-pill"><div class="v">{{ r.f1_macro }}%</div><div class="l">F1-Score (Macro)</div></div>
+      <div class="glass-card metric-pill"><div class="v">{{ r.roc_auc }}%</div><div class="l">ROC-AUC</div></div>
+    </div>
+    <div class="grid grid-2">
+      <div class="glass-card">
+        <h4 class="mb-2">Model Configuration</h4>
+        <div class="review-item"><span class="k">Algorithm</span><span class="v">{{ meta.algorithm }}</span></div>
+        <div class="review-item"><span class="k">Type</span><span class="v">{{ meta.type }}</span></div>
+        <div class="review-item"><span class="k">Tuned Threshold</span><span class="v">{{ r.threshold }} (not the default 0.5)</span></div>
+        <div class="review-item"><span class="k">Precision (Rejected)</span><span class="v">{{ r.precision_rejected }}%</span></div>
+        <div class="review-item"><span class="k">Recall (Rejected)</span><span class="v">{{ r.recall_rejected }}%</span></div>
+        <div class="review-item"><span class="k">F1-Score (Rejected)</span><span class="v">{{ r.f1_rejected }}%</span></div>
+      </div>
+      {% if name == primary_model %}
+      <div class="glass-card">
+        <h4 class="mb-2">Confusion Matrix (Test Set, n=1,666)</h4>
+        <table class="data-table" style="min-width:100%">
+          <thead><tr><th></th><th>Predicted: Approved</th><th>Predicted: Rejected</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Actual: Approved</strong></td><td style="color:var(--success);font-weight:700">850</td><td>458</td></tr>
+            <tr><td><strong>Actual: Rejected</strong></td><td>229</td><td style="color:var(--success);font-weight:700">129</td></tr>
+          </tbody>
+        </table>
+        <p class="small muted mt-2">Real confusion matrix reconciled from the notebook's classification report (Approved support 1,308 · Rejected support 358).</p>
+      </div>
+      {% else %}
+      <div class="glass-card">
+        <h4 class="mb-2">Test Set Summary</h4>
+        <div class="review-item"><span class="k">Approved Support</span><span class="v">1,308</span></div>
+        <div class="review-item"><span class="k">Rejected Support</span><span class="v">358</span></div>
+        <div class="review-item"><span class="k">Total Test Rows</span><span class="v">1,666</span></div>
+        <p class="small muted mt-2">Detailed per-class confusion matrix is shown for the primary ({{ primary_model }}) model above.</p>
+      </div>
+      {% endif %}
+    </div>
+    <div class="grid grid-2 mt-3">
+      <div class="glass-card">
+        <h4 class="mb-2" style="color:var(--success)"><i class="fa-solid fa-circle-check"></i> Advantages</h4>
+        <ul style="list-style:disc;padding-left:20px;color:var(--text-1)">
+          {% for a in meta.advantages %}<li>{{ a }}</li>{% endfor %}
+        </ul>
+      </div>
+      <div class="glass-card">
+        <h4 class="mb-2" style="color:var(--warning)"><i class="fa-solid fa-triangle-exclamation"></i> Limitations</h4>
+        <ul style="list-style:disc;padding-left:20px;color:var(--text-1)">
+          {% for l in meta.limitations %}<li>{{ l }}</li>{% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+  <div class="glass-card mt-3 reveal">
+    <p class="small muted" style="margin:0;">
+      <i class="fa-solid fa-circle-info" style="color:var(--brand-cyan)"></i>
+      <strong>Honest note on predictive power:</strong> the Credit Card Approval Prediction dataset's "Rejected" outcome is only weakly
+      predictable from application-time demographic and financial fields alone (best ROC-AUC ≈ 0.50 across all four models tested).
+      {{ primary_model }} was selected because it achieved the best macro-F1 score among models whose Rejected-class recall
+      cleared a 30% floor — not because any model here achieves high real-world accuracy. See the training notebook's
+      "Honest Note on Predictive Power" section for the full analysis.
+    </p>
+  </div>
+
+  <!-- Accuracy comparison chart -->
+  <div class="glass-card mt-4">
+    <h4 class="mb-2">Overall Accuracy Comparison</h4>
+    <div class="chart-box"><canvas id="chart-model-accuracy"></canvas></div>
+  </div>
+
+  <!-- Feature importance -->
+  <div class="glass-card mt-4">
+    <h4 class="mb-3">Feature Importance — {{ primary_model }} (Primary Model)</h4>
+    <div class="chart-box tall"><canvas id="chart-feature-importance"></canvas></div>
+  </div>
+</div>
+
+{% endblock %}
+{% block extra_js %}
+<script>
+window.DASHBOARD_DATA = {
+  importance: {
+    labels: {{ importance|map(attribute=0)|list|tojson }},
+    values: {{ importance|map(attribute=1)|list|tojson }}
+  },
+  model_accuracy: {
+    labels: {{ model_accuracy.keys()|list|tojson }},
+    values: {{ model_accuracy.values()|list|tojson }}
+  }
+};
+</script>
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+{% endblock %}

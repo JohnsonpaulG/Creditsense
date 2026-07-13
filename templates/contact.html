@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Contact Support | CreditSense{% endblock %}
+{% block content %}
+
+<div class="page-hero container">
+  <span class="kicker"><span class="dot"></span> We're Here For You</span>
+  <h1>Contact <span class="gradient-text">Support</span></h1>
+  <p>Have a question about the project or found an issue? Reach out below.</p>
+</div>
+
+<div class="container section-tight">
+  <div class="contact-grid">
+
+    <div class="glass-card reveal">
+      <h4 class="mb-3">Send us a message</h4>
+      <form method="POST" action="{{ url_for('contact') }}">
+        <div class="form-grid">
+          <div class="field">
+            <label>Full Name <span class="req">*</span></label>
+            <input type="text" name="name" placeholder="Your name" required>
+          </div>
+          <div class="field">
+            <label>Email Address <span class="req">*</span></label>
+            <input type="email" name="email" placeholder="you@example.com" required>
+          </div>
+          <div class="field full">
+            <label>Subject <span class="req">*</span></label>
+            <input type="text" name="subject" placeholder="What is this about?" required>
+          </div>
+          <div class="field full">
+            <label>Message <span class="req">*</span></label>
+            <input type="text" name="message" placeholder="Tell us more..." required style="height:110px;">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block mt-3">Send Message <i class="fa-solid fa-paper-plane"></i></button>
+      </form>
+    </div>
+
+    <div class="reveal reveal-delay-1">
+      <div class="contact-info-item glass-card" style="padding:22px;">
+        <span class="ic"><i class="fa-solid fa-envelope"></i></span>
+        <div><strong>Email</strong><p class="muted small"><a href="mailto:238x1a4225@khitguntur.ac.in">238x1a4225@khitguntur.ac.in</a></p></div>
+      </div>
+      <div class="contact-info-item glass-card" style="padding:22px;margin-top:16px;">
+        <span class="ic"><i class="fa-solid fa-phone"></i></span>
+        <div><strong>Phone</strong><p class="muted small">+91 98765 43210</p></div>
+      </div>
+      <div class="contact-info-item glass-card" style="padding:22px;margin-top:16px;">
+        <span class="ic"><i class="fa-solid fa-clock"></i></span>
+        <div><strong>Office Hours</strong><p class="muted small">Mon – Fri, 9:00 AM – 6:00 PM IST</p></div>
+      </div>
+      <div class="contact-info-item glass-card" style="padding:22px;margin-top:16px;">
+        <span class="ic"><i class="fa-solid fa-share-nodes"></i></span>
+        <div>
+          <strong>Follow Us</strong>
+          <div class="footer-social mt-1">
+            <a href="{{ url_for('github') }}" class="icon-btn"><i class="fa-brands fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/johnson-paul-gandham" target="_blank" rel="noopener noreferrer" class="icon-btn"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="https://twitter.com/login" target="_blank" rel="noopener noreferrer" class="icon-btn"><i class="fa-brands fa-x-twitter"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

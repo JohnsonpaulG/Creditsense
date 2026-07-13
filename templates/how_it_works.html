@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}How It Works | CreditSense{% endblock %}
+{% block content %}
+
+<div class="page-hero container">
+  <span class="kicker"><span class="dot"></span> Workflow</span>
+  <h1>How <span class="gradient-text">CreditSense</span> Works</h1>
+  <p>From raw dataset to a live, explainable decision — here's the full pipeline behind every prediction.</p>
+</div>
+
+<div class="container section-tight">
+  <div class="flow-wrap">
+    {% set flow = [
+      ("fa-database","Dataset","Starts with the Credit Card Approval Prediction dataset — 300K+ anonymized applicant records combining application and credit bureau history."),
+      ("fa-broom","Data Cleaning","Missing values, duplicate records and inconsistent categories are cleaned and standardized."),
+      ("fa-filter","Preprocessing","Categorical fields are label-encoded and numeric fields are scaled using a fitted StandardScaler."),
+      ("fa-sliders","Feature Engineering","13 key financial & demographic features are engineered — income, age, employment length, occupation and more."),
+      ("fa-brain","Model Training","Four algorithms are trained and cross-validated; the tuned Random Forest Classifier is selected as production model."),
+      ("fa-bolt","Prediction","The trained model scores a new application in real time, returning a probability, confidence and risk category."),
+      ("fa-chart-line","Result Analysis","Every prediction is logged and visualized across the Dashboard and History pages for full transparency.")
+    ] %}
+    {% for icon, title, desc in flow %}
+    <div class="flow-step reveal">
+      <div class="flow-num"><i class="fa-solid {{ icon }}"></i></div>
+      <div class="flow-content">
+        <h4>{{ title }}</h4>
+        <p>{{ desc }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="container section-tight">
+  <div class="glass-card reveal" style="padding:40px;display:flex;gap:30px;align-items:center;flex-wrap:wrap;">
+    <div class="card-icon" style="margin:0;width:70px;height:70px;font-size:1.8rem;"><i class="fa-solid fa-shield-halved"></i></div>
+    <div style="flex:1;min-width:260px;">
+      <h3>Built on Security. Driven by Trust.</h3>
+      <p class="muted">We use encrypted form submission, secure server-side processing, and never expose raw applicant data via the client.</p>
+    </div>
+    <div class="grid grid-4" style="flex:2;min-width:280px;">
+      <div class="text-center"><i class="fa-solid fa-lock" style="color:var(--brand-cyan);font-size:1.4rem"></i><p class="small mt-1">100% Secure</p></div>
+      <div class="text-center"><i class="fa-solid fa-user-shield" style="color:var(--brand-cyan);font-size:1.4rem"></i><p class="small mt-1">Bank-Level Encryption</p></div>
+      <div class="text-center"><i class="fa-solid fa-database" style="color:var(--brand-cyan);font-size:1.4rem"></i><p class="small mt-1">Data Never Shared</p></div>
+      <div class="text-center"><i class="fa-solid fa-arrows-rotate" style="color:var(--brand-cyan);font-size:1.4rem"></i><p class="small mt-1">Continuously Improving</p></div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

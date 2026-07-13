@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Server Error | CreditSense{% endblock %}
+{% block content %}
+<div class="container error-wrap">
+  <div class="error-code" style="color:var(--danger)">500</div>
+  <h2 class="mt-2">Something Went Wrong</h2>
+  <p class="muted mt-1" style="max-width:420px">Our server hit an unexpected error. Please try again in a moment.</p>
+  <div class="flex gap-2 mt-3">
+    <a href="{{ url_for('index') }}" class="btn btn-primary">Back to Home</a>
+    <a href="{{ url_for('contact') }}" class="btn btn-outline">Contact Support</a>
+  </div>
+</div>
+{% endblock %}

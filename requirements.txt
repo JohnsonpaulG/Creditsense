@@ -1,0 +1,15 @@
+# ---- Web application runtime (installed on Render) ----
+# Every package below is actually imported (directly, or via joblib.load
+# of the pickled model/scaler/encoders) by app.py / utils/*.py.
+Flask==3.0.3
+gunicorn==22.0.0
+scikit-learn==1.5.1
+pandas==2.2.2
+numpy==1.26.4
+fpdf2==2.7.9
+joblib==1.4.2
+
+# NOTE: xgboost was removed. The shipped models/credit_card_approval_model.pkl
+# is a scikit-learn LogisticRegression (verified via joblib.load), and no file
+# in app.py/utils/ imports xgboost. If you retrain the notebook and it selects
+# XGBoost as the winning model, add xgboost==2.1.1 back before redeploying.

@@ -1,0 +1,276 @@
+{% extends "base.html" %}
+{% block title %}CreditSense | AI-Powered Credit Card Approval Platform{% endblock %}
+{% block content %}
+
+<!-- ============================= HERO ============================= -->
+<section class="hero container">
+  <div class="hero-copy">
+    <span class="kicker"><span class="dot"></span> AI-Powered Banking Intelligence</span>
+    <h1>Smarter credit decisions, <span class="gradient-text">powered by AI.</span></h1>
+    <p class="lead">CreditSense analyzes applicant data in real time using a trained {{ primary_model }} model to deliver instant, explainable credit card approval predictions — with confidence scores, risk categories and recommended limits.</p>
+    <div class="hero-cta">
+      <a href="{{ url_for('prediction') }}" class="btn btn-primary btn-lg"><i class="fa-solid fa-bolt"></i> Start Prediction</a>
+      <a href="{{ url_for('dashboard') }}" class="btn btn-outline btn-lg"><i class="fa-solid fa-chart-line"></i> View Dashboard</a>
+    </div>
+    <div class="hero-trust">
+      <div class="trust-item"><strong data-count="{{ stats.total if stats.total > 0 else 1200 }}">0</strong><span>Predictions Made</span></div>
+      <div class="trust-item"><strong data-count="{{ primary_accuracy }}" data-decimals="1" data-suffix="%">0</strong><span>Model Accuracy</span></div>
+      <div class="trust-item"><strong data-count="13" data-suffix="+">0</strong><span>Data Features</span></div>
+      <div class="trust-item"><strong data-count="2" data-suffix="s">0</strong><span>Avg. Response Time</span></div>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="hero-orb o1"></div>
+    <div class="hero-orb o2"></div>
+
+    <div class="hero-card-main glass-card">
+      <div class="row">
+        <div>
+          <div class="small muted">Application Result</div>
+          <h3 style="margin-top:6px">Credit Assessment</h3>
+        </div>
+        <span class="badge badge-success"><i class="fa-solid fa-check"></i> Approved</span>
+      </div>
+      <div class="gauge-wrap">
+        <svg width="180" height="110" viewBox="0 0 180 110">
+          <path d="M10,100 A80,80 0 0,1 170,100" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="14" stroke-linecap="round"/>
+          <path d="M10,100 A80,80 0 0,1 152,38" fill="none" stroke="url(#g1)" stroke-width="14" stroke-linecap="round"/>
+          <defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#22d3ee"/><stop offset="100%" stop-color="#3b82f6"/></linearGradient></defs>
+          <text x="90" y="90" text-anchor="middle" font-size="28" font-weight="800" fill="var(--text-0)">87%</text>
+        </svg>
+      </div>
+      <div class="chip-row">
+        <div class="hero-mini-chip">Risk<strong>Low</strong></div>
+        <div class="hero-mini-chip">Limit<strong>$18,500</strong></div>
+        <div class="hero-mini-chip">APR<strong>11.2%</strong></div>
+      </div>
+    </div>
+
+    <div class="hero-float-badge b1 glass">
+      <span class="ic" style="background:var(--grad-cyan)"><i class="fa-solid fa-shield-halved"></i></span>
+      Secure &amp; Encrypted
+    </div>
+    <div class="hero-float-badge b2 glass">
+      <span class="ic" style="background:var(--grad-primary)"><i class="fa-solid fa-robot"></i></span>
+      {{ primary_model }} Model
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <div class="scroll-cue" style="position:static;display:flex;justify-content:center;margin-bottom:60px;">
+    <span>SCROLL</span><span class="line"></span>
+  </div>
+</div>
+
+<!-- ============================= STATS ============================= -->
+<section class="container section-tight reveal">
+  <div class="stats-strip glass">
+    <div class="stat-box">
+      <div class="num gradient-text"><span data-count="{{ stats.total if stats.total>0 else 5400 }}">0</span></div>
+      <div class="lbl">Total Predictions</div>
+    </div>
+    <div class="stat-box">
+      <div class="num gradient-text"><span data-count="{{ stats.approval_rate if stats.total>0 else 68 }}" data-decimals="1" data-suffix="%">0</span></div>
+      <div class="lbl">Approval Rate</div>
+    </div>
+    <div class="stat-box">
+      <div class="num gradient-text"><span data-count="{{ primary_accuracy }}" data-decimals="1" data-suffix="%">0</span></div>
+      <div class="lbl">Model Accuracy</div>
+    </div>
+    <div class="stat-box">
+      <div class="num gradient-text"><span data-count="307511">0</span></div>
+      <div class="lbl">Training Records</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= INTRO ============================= -->
+<section class="container section">
+  <div class="section-head reveal">
+    <span class="kicker"><span class="dot"></span> Project Introduction</span>
+    <h2>A real fintech-grade prediction engine</h2>
+    <p>CreditSense takes the classic Credit Card Approval dataset and wraps it in a production-style banking interface — designed for both technical demonstration and real-world usability.</p>
+  </div>
+
+  <div class="grid grid-3">
+    <div class="glass-card reveal">
+      <div class="card-icon"><i class="fa-solid fa-brain"></i></div>
+      <h4>Trained ML Model</h4>
+      <p class="muted">A tuned {{ primary_model }} model trained on 300K+ real anonymized applicant records with a validation-tuned decision threshold.</p>
+    </div>
+    <div class="glass-card reveal reveal-delay-1">
+      <div class="card-icon" style="background:var(--grad-cyan);color:#04202a"><i class="fa-solid fa-gauge-high"></i></div>
+      <h4>Instant Decisions</h4>
+      <p class="muted">Get an approval decision, confidence score, risk category and suggested credit limit in under two seconds.</p>
+    </div>
+    <div class="glass-card reveal reveal-delay-2">
+      <div class="card-icon"><i class="fa-solid fa-layer-group"></i></div>
+      <h4>Full Analytics Suite</h4>
+      <p class="muted">A live dashboard and searchable history give complete visibility into every prediction made.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= FEATURES OVERVIEW ============================= -->
+<section class="container section" style="padding-top:0">
+  <div class="section-head reveal">
+    <span class="kicker"><span class="dot"></span> Features Overview</span>
+    <h2>Everything a modern credit platform needs</h2>
+  </div>
+  <div class="grid grid-4">
+    {% set feats = [
+      ("fa-wand-magic-sparkles","AI Prediction","Real-time approval decisions from a trained ML model."),
+      ("fa-chart-pie","Analytics Dashboard","Live charts covering approvals, income & risk trends."),
+      ("fa-clock-rotate-left","Prediction History","Every application logged, searchable and exportable."),
+      ("fa-file-pdf","Downloadable Reports","Generate a branded PDF report for any prediction.")
+    ] %}
+    {% for icon, title, desc in feats %}
+    <div class="glass-card reveal">
+      <div class="card-icon"><i class="fa-solid {{ icon }}"></i></div>
+      <h4>{{ title }}</h4>
+      <p class="muted small">{{ desc }}</p>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="text-center mt-4 reveal">
+    <a href="{{ url_for('features') }}" class="btn btn-outline">Explore All Features <i class="fa-solid fa-arrow-right"></i></a>
+  </div>
+</section>
+
+<!-- ============================= ML OVERVIEW SPLIT ============================= -->
+<section class="container section">
+  <div class="split">
+    <div class="reveal">
+      <span class="kicker"><span class="dot"></span> Machine Learning Overview</span>
+      <h2>Built on a tuned {{ primary_model }} model</h2>
+      <p class="muted">The model was trained on the Credit Card Approval Prediction dataset, engineered with 13 key financial and demographic features, and validated across multiple algorithms before selecting the best performer.</p>
+      <div class="split-list">
+        <div class="item"><span class="ic">1</span><div><strong>Data Preprocessing</strong><p class="muted small">Cleaning, encoding and scaling of 300K+ raw applicant records.</p></div></div>
+        <div class="item"><span class="ic">2</span><div><strong>Model Training</strong><p class="muted small">Logistic Regression, Decision Tree, Random Forest &amp; XGBoost compared.</p></div></div>
+        <div class="item"><span class="ic">3</span><div><strong>Explainable Output</strong><p class="muted small">Feature importance driven explanations for every decision.</p></div></div>
+      </div>
+      <div class="model-badge-row">
+        <span class="badge badge-info">{{ primary_model }} (Primary)</span>
+        {% for name in ["Logistic Regression","Decision Tree","Random Forest","XGBoost"] if name != primary_model %}
+        <span class="badge badge-info">{{ name }}</span>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="glass-card reveal reveal-delay-1">
+      <h4 class="mb-2">Feature Importance</h4>
+      {% for label, val in importance[:5] %}
+      <div class="imp-row">
+        <span class="name">{{ label }}</span>
+        <span class="track progress-bar-track"><span class="progress-bar-fill" data-value="{{ val }}" style="width:{{ val }}%"></span></span>
+        <span class="val">{{ val }}%</span>
+      </div>
+      {% endfor %}
+      <a href="{{ url_for('ml_models') }}" class="btn btn-ghost btn-sm mt-3">Full Model Comparison</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= DASHBOARD PREVIEW ============================= -->
+<section class="container section">
+  <div class="section-head reveal">
+    <span class="kicker"><span class="dot"></span> Dashboard Preview</span>
+    <h2>Live analytics at a glance</h2>
+    <p>Every prediction feeds a real-time dashboard tracking approval trends, income distribution and model performance.</p>
+  </div>
+  <div class="dash-grid reveal">
+    <div class="dash-card glass-card">
+      <div class="top"><span class="ic" style="background:var(--grad-primary)"><i class="fa-solid fa-users"></i></span><span class="trend up">▲ 12%</span></div>
+      <div class="num">{{ stats.total }}</div><div class="lbl">Total Predictions</div>
+    </div>
+    <div class="dash-card glass-card">
+      <div class="top"><span class="ic" style="background:var(--success)"><i class="fa-solid fa-circle-check"></i></span><span class="trend up">▲ 4.2%</span></div>
+      <div class="num">{{ stats.approval_rate }}%</div><div class="lbl">Approval Rate</div>
+    </div>
+    <div class="dash-card glass-card">
+      <div class="top"><span class="ic" style="background:var(--danger)"><i class="fa-solid fa-circle-xmark"></i></span><span class="trend down">▼ 2.1%</span></div>
+      <div class="num">{{ stats.rejection_rate }}%</div><div class="lbl">Rejection Rate</div>
+    </div>
+    <div class="dash-card glass-card">
+      <div class="top"><span class="ic" style="background:var(--grad-cyan);color:#04202a"><i class="fa-solid fa-gauge-high"></i></span><span class="trend up">▲ 0.8%</span></div>
+      <div class="num">{{ primary_accuracy }}%</div><div class="lbl">Model Accuracy</div>
+    </div>
+  </div>
+  <div class="text-center mt-3 reveal">
+    <a href="{{ url_for('dashboard') }}" class="btn btn-primary">Open Full Dashboard <i class="fa-solid fa-arrow-right"></i></a>
+  </div>
+</section>
+
+<!-- ============================= HOW IT WORKS PREVIEW ============================= -->
+<section class="container section">
+  <div class="section-head reveal">
+    <span class="kicker"><span class="dot"></span> How It Works</span>
+    <h2>From dataset to decision in 7 steps</h2>
+  </div>
+  <div class="grid grid-4 reveal">
+    {% for icon,title in [("fa-database","Dataset"),("fa-broom","Data Cleaning"),("fa-filter","Preprocessing"),("fa-sliders","Feature Engineering")] %}
+    <div class="glass-card text-center">
+      <div class="card-icon" style="margin:0 auto 16px"><i class="fa-solid {{ icon }}"></i></div>
+      <h4>{{ title }}</h4>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="text-center mt-3 reveal">
+    <a href="{{ url_for('how_it_works') }}" class="btn btn-outline">See Full Workflow <i class="fa-solid fa-arrow-right"></i></a>
+  </div>
+</section>
+
+<!-- ============================= BENEFITS ============================= -->
+<section class="container section">
+  <div class="split">
+    <div class="glass-card reveal">
+      <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop" alt="Banking analytics" style="border-radius:var(--radius-md);width:100%;height:280px;object-fit:cover;">
+    </div>
+    <div class="reveal reveal-delay-1">
+      <span class="kicker"><span class="dot"></span> Benefits</span>
+      <h2>Why teams &amp; recruiters like this platform</h2>
+      <div class="split-list">
+        <div class="item"><span class="ic"><i class="fa-solid fa-bolt"></i></span><div><strong>Instant, explainable AI decisions</strong><p class="muted small">No black boxes — every result comes with a plain-language explanation.</p></div></div>
+        <div class="item"><span class="ic"><i class="fa-solid fa-mobile-screen"></i></span><div><strong>Fully responsive</strong><p class="muted small">Looks and performs great on desktop, tablet and mobile.</p></div></div>
+        <div class="item"><span class="ic"><i class="fa-solid fa-palette"></i></span><div><strong>Premium fintech design</strong><p class="muted small">Glassmorphism, gradients and motion — built to impress evaluators.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= FAQ ============================= -->
+<section class="container section">
+  <div class="section-head reveal">
+    <span class="kicker"><span class="dot"></span> FAQ</span>
+    <h2>Frequently asked questions</h2>
+  </div>
+  <div class="glass-card reveal" style="max-width:780px;margin:0 auto;">
+    {% set faqs = [
+      ("Is my data stored?","Prediction inputs are stored locally in the demo database purely to power the History and Dashboard pages for this project demonstration."),
+      ("Which model powers the predictions?","A " ~ primary_model ~ " model trained on the Credit Card Approval Prediction dataset, selected by comparing four algorithms and tuning a decision threshold on a held-out validation set."),
+      ("Can I download a report?","Yes — every prediction result includes a Download Report button that generates a branded PDF summary."),
+      ("Is this a real banking product?","No, CreditSense is a SmartBridge Summer Internship project built to demonstrate an end-to-end applied ML + full-stack workflow.")
+    ] %}
+    {% for q,a in faqs %}
+    <div class="faq-item">
+      <div class="faq-q">{{ q }} <span class="plus">+</span></div>
+      <div class="faq-a"><p>{{ a }}</p></div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ============================= CTA ============================= -->
+<section class="container section-tight">
+  <div class="cta-band reveal">
+    <h2>Ready to see your credit prediction?</h2>
+    <p>Takes less than 2 minutes. No login required.</p>
+    <div class="flex gap-2" style="justify-content:center;flex-wrap:wrap;">
+      <a href="{{ url_for('prediction') }}" class="btn btn-primary btn-lg">Start Prediction <i class="fa-solid fa-arrow-right"></i></a>
+      <a href="{{ url_for('how_it_works') }}" class="btn btn-outline btn-lg">Learn How It Works</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

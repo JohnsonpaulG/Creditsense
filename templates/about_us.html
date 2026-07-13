@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}About Us | CreditSense{% endblock %}
+{% block content %}
+
+<div class="page-hero container">
+  <span class="kicker"><span class="dot"></span> Meet the Team</span>
+  <h1>About <span class="gradient-text">Us</span></h1>
+  <p>We are B.Tech final-year students building CreditSense as part of the SmartBridge Virtual Summer Internship program.</p>
+</div>
+
+<div class="container section-tight">
+  <div class="grid grid-4">
+    {% set team = [
+      ("Gandham Johnson Paul","Frontend Developer","Built the interactive, responsive user interface.","fa-code","https://www.linkedin.com/in/Johnson-paul-gandham","https://github.com/JohnsonpaulG"),
+      ("Yagnesh Challa","Backend Developer","Handles server-side logic, routing and API design.","fa-server","https://www.linkedin.com/in/yagnesh-challa","https://github.com/yagneshchalla"),
+      ("Sravanthi Choudaboina","ML Engineer","Trained and tuned the credit approval prediction model.","fa-brain","https://www.linkedin.com/in/sravanthi-chodaboina","https://github.com/sravanthichodaboina-git"),
+      ("Akkala Shanmukha Reddy","Data Analyst","Performed data preprocessing, EDA and feature engineering.","fa-chart-simple","https://www.linkedin.com/in/akkala-shanmukha-reddy-5b727a352","https://github.com/Shunmuka-49"),
+      ("Shaik Asha","UI/UX Designer","Designed the premium fintech visual language.","fa-pen-nib","https://www.linkedin.com/in/shaik-asha","https://github.com/JohnsonpaulG/Credit-Card-Approval-Prediction")
+    ] %}
+    {% for name, role, bio, icon, linkedin, github in team %}
+    <div class="glass-card team-card reveal">
+      <div class="team-avatar"><i class="fa-solid {{ icon }}"></i></div>
+      <h4>{{ name }}</h4>
+      <div class="role">{{ role }}</div>
+      <p class="bio">{{ bio }}</p>
+      <div class="team-social">
+        <a href="{{ linkedin }}" target="_blank" rel="noopener noreferrer" class="icon-btn btn-sm"><i class="fa-brands fa-linkedin-in"></i></a>
+        <a href="{{ github }}" target="_blank" rel="noopener noreferrer" class="icon-btn btn-sm"><i class="fa-brands fa-github"></i></a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="grid grid-3 mt-4">
+    <div class="glass-card reveal">
+      <h4 class="mb-2"><i class="fa-solid fa-list-check" style="color:var(--brand-cyan)"></i> Our Responsibilities</h4>
+      <ul style="list-style:none;color:var(--text-1)">
+        {% for r in ["Frontend Development","Backend Development","Machine Learning Model","Data Preprocessing","UI/UX Design","Testing & Documentation"] %}
+        <li class="mb-1"><i class="fa-solid fa-circle-check" style="color:var(--success);margin-right:8px"></i>{{ r }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="glass-card reveal reveal-delay-1">
+      <h4 class="mb-2"><i class="fa-solid fa-layer-group" style="color:var(--brand-cyan)"></i> Technologies We Used</h4>
+      <div class="flex gap-1" style="flex-wrap:wrap">
+        {% for t in ["Python","Flask","scikit-learn","XGBoost","Pandas","HTML5","CSS3","JavaScript","Git","GitHub"] %}
+        <span class="badge badge-info">{{ t }}</span>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="glass-card reveal reveal-delay-2">
+      <h4 class="mb-2"><i class="fa-solid fa-bullseye" style="color:var(--brand-cyan)"></i> Our Goal</h4>
+      <p class="muted small">As part of the Virtual Summer Internship, our team built CreditSense to help users estimate their credit card approval chances using machine learning, while ensuring a secure, user-friendly and transparent experience.</p>
+    </div>
+  </div>
+
+  <div class="glass-card mt-3 reveal" style="padding:34px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;">
+    <div class="flex items-center gap-2">
+      <div class="card-icon" style="margin:0"><i class="fa-solid fa-user-tie"></i></div>
+      <div>
+        <h4 style="margin-bottom:4px">Project Mentor</h4>
+        <p class="muted small">Guided by industry experts and our internship mentor throughout the development journey — SmartBridge Summer Internship Program.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}About Project | CreditSense{% endblock %}
+{% block content %}
+
+<div class="page-hero container">
+  <span class="kicker"><span class="dot"></span> SmartBridge Summer Internship</span>
+  <h1>About the <span class="gradient-text">Project</span></h1>
+  <p>An end-to-end applied machine learning project — from raw data to a deployed, production-styled banking platform.</p>
+</div>
+
+<div class="container section-tight">
+  <div class="grid grid-2">
+    <div class="glass-card reveal">
+      <h4 class="mb-2"><i class="fa-solid fa-circle-question" style="color:var(--brand-cyan)"></i> Problem Statement</h4>
+      <p class="muted">Manual credit card approval review is slow, inconsistent and hard to scale. This project builds a machine learning system that predicts whether an applicant is likely to be approved, based on their demographic and financial profile.</p>
+    </div>
+    <div class="glass-card reveal reveal-delay-1">
+      <h4 class="mb-2"><i class="fa-solid fa-bullseye" style="color:var(--brand-cyan)"></i> Objectives</h4>
+      <ul style="list-style:disc;padding-left:20px;color:var(--text-1)">
+        <li>Build an accurate, explainable approval prediction model</li>
+        <li>Wrap the model in a premium, responsive banking-style UI</li>
+        <li>Provide real analytics: dashboard, history visibility</li>
+        <li>Make the app deployable end-to-end on Render</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="glass-card mt-3 reveal">
+    <h4 class="mb-2"><i class="fa-solid fa-database" style="color:var(--brand-cyan)"></i> Dataset</h4>
+    <p class="muted mb-2">The <strong>Credit Card Approval Prediction</strong> dataset (Kaggle), combining two sources:</p>
+    <div class="grid grid-2">
+      <div class="review-item"><span class="k">application_record.csv</span><span class="v">438,557 applicant records</span></div>
+      <div class="review-item"><span class="k">credit_record.csv</span><span class="v">1,048,575 monthly credit records</span></div>
+    </div>
+    <p class="muted mt-2 small">The two sources are inner-joined on applicant ID and labeled using each applicant's worst historical credit status, then deduplicated - yielding 11,106 unique applicant profiles across 13 engineered features.</p>
+  </div>
+
+  <div class="glass-card mt-3 reveal">
+    <h4 class="mb-2"><i class="fa-solid fa-layer-group" style="color:var(--brand-cyan)"></i> Technologies Used</h4>
+    <div class="flex gap-1" style="flex-wrap:wrap">
+      {% for t in ["Python","Flask","scikit-learn","XGBoost","Pandas","NumPy","SQLite","Chart.js","HTML5","CSS3","JavaScript","Jinja2","Gunicorn","Render"] %}
+      <span class="badge badge-info">{{ t }}</span>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="grid grid-2 mt-3">
+    <div class="glass-card reveal">
+      <h4 class="mb-2"><i class="fa-solid fa-sitemap" style="color:var(--brand-cyan)"></i> Project Architecture</h4>
+      <div class="folder-tree">
+<span class="dir">CreditSense/</span>
+├── app.py <span class="comment"># Flask routes</span>
+├── config.py
+├── <span class="dir">model/</span> <span class="comment"># trained .pkl artifacts</span>
+├── <span class="dir">utils/</span>
+│   ├── predictor.py <span class="comment"># ML inference layer</span>
+│   ├── db.py <span class="comment"># SQLite persistence</span>
+│   └── report.py <span class="comment"># PDF generation</span>
+├── <span class="dir">templates/</span> <span class="comment"># Jinja2 views</span>
+└── <span class="dir">static/</span> <span class="comment"># CSS / JS / assets</span>
+      </div>
+    </div>
+    <div class="glass-card reveal reveal-delay-1">
+      <h4 class="mb-2"><i class="fa-solid fa-diagram-project" style="color:var(--brand-cyan)"></i> ML Pipeline</h4>
+      <div class="timeline-v">
+        {% for step in ["Data Cleaning","Label Encoding","Feature Scaling","Model Training & Comparison","Threshold Tuning & Model Selection (" ~ primary_model ~ ")","Serialization (.pkl via joblib)","Flask Inference API"] %}
+        <div class="arch-step"><span class="arch-dot"></span><span>{{ step }}</span></div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="glass-card mt-3 reveal">
+    <h4 class="mb-2"><i class="fa-solid fa-rocket" style="color:var(--brand-cyan)"></i> Future Scope</h4>
+    <ul style="list-style:disc;padding-left:20px;color:var(--text-1)">
+      <li>Integrate real-time credit bureau data via secure APIs</li>
+      <li>Add user authentication &amp; multi-tenant admin roles</li>
+      <li>Deploy explainability via SHAP value visualizations</li>
+      <li>Extend the model to support additional financial products</li>
+    </ul>
+  </div>
+</div>
+
+{% endblock %}

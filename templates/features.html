@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Features | CreditSense{% endblock %}
+{% block content %}
+
+<div class="page-hero container">
+  <span class="kicker"><span class="dot"></span> Platform Features</span>
+  <h1>Powerful Features. <span class="gradient-text">Smarter Decisions.</span></h1>
+  <p>CreditSense combines a tuned ML model with a full analytics suite and a premium fintech interface.</p>
+</div>
+
+<div class="container section-tight">
+  <div class="grid grid-4">
+    {% set feats = [
+      ("fa-wand-magic-sparkles","AI Prediction","Instant, explainable approval predictions from a trained " ~ primary_model ~ " model."),
+      ("fa-chart-pie","Analytics Dashboard","Live charts covering approvals, income, education and employment trends."),
+      ("fa-layer-group","Multiple ML Models","Logistic Regression, Decision Tree, Random Forest & XGBoost benchmarked side by side."),
+      ("fa-clock-rotate-left","Prediction History","Every application logged with search, filter, sort and CSV export."),
+      ("fa-mobile-screen-button","Modern UI","Glassmorphism, gradients and motion — designed for both desktop and mobile."),
+      ("fa-gauge-high","Fast Processing","Predictions return in well under a second thanks to a lightweight inference pipeline."),
+      ("fa-lightbulb","Explainable Results","Every decision includes a plain-language AI explanation of the top contributing factors."),
+      ("fa-file-pdf","Download Reports","Generate a branded PDF report for any prediction with one click.")
+    ] %}
+    {% for icon,title,desc in feats %}
+    <div class="glass-card feature-detail-card reveal">
+      <div class="card-icon"><i class="fa-solid {{ icon }}"></i></div>
+      <h4>{{ title }}</h4>
+      <p>{{ desc }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="container section-tight">
+  <div class="grid grid-2">
+    <div class="glass-card reveal">
+      <h3 class="mb-2">All-in-One Credit Intelligence</h3>
+      <p class="muted mb-3">From approval prediction to risk scoring, CreditSense brings everything into one intelligent platform.</p>
+      <div class="flex gap-1" style="flex-wrap:wrap">
+        <span class="badge badge-info">Credit Score Insights</span>
+        <span class="badge badge-info">Risk Categorization</span>
+        <span class="badge badge-info">Credit Limit Estimation</span>
+        <span class="badge badge-info">Trend Analysis</span>
+      </div>
+    </div>
+    <div class="glass-card reveal reveal-delay-1">
+      <h3 class="mb-2">Why CreditSense?</h3>
+      <div class="split-list" style="margin-top:10px">
+        <div class="item"><span class="ic"><i class="fa-solid fa-bullseye"></i></span><div><strong>Built for Accuracy</strong><p class="muted small">Rigorously tested models ensure reliable predictions.</p></div></div>
+        <div class="item"><span class="ic"><i class="fa-solid fa-shield-halved"></i></span><div><strong>Designed for Trust</strong><p class="muted small">Transparency and privacy prioritized throughout.</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container section-tight">
+  <div class="glass-card reveal" style="padding:36px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px;align-items:center;">
+    <div>
+      <h3>Our Commitment to You</h3>
+      <p class="muted">Delivering the most accurate, secure and user-friendly credit intelligence platform.</p>
+    </div>
+    <div class="flex gap-3">
+      <div class="text-center"><div class="num gradient-text" style="font-size:1.6rem;font-weight:800">100%</div><div class="small muted">Secure &amp; Private</div></div>
+      <div class="text-center"><div class="num gradient-text" style="font-size:1.6rem;font-weight:800">{{ primary_accuracy }}%</div><div class="small muted">Model Accuracy</div></div>
+      <div class="text-center"><div class="num gradient-text" style="font-size:1.6rem;font-weight:800">24/7</div><div class="small muted">Availability</div></div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

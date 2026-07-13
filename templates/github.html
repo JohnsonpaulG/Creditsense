@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+{% block title %}GitHub | CreditSense{% endblock %}
+{% block content %}
+
+<div class="page-hero container">
+  <span class="kicker"><span class="dot"></span> Open Source</span>
+  <h1><i class="fa-brands fa-github"></i> Repository</h1>
+  <p>CreditSense is built entirely on open, inspectable code — explore the repository and run it locally in minutes.</p>
+</div>
+
+<div class="container section-tight" style="max-width:900px;margin:0 auto;">
+
+  <!-- Single featured repository card -->
+  <a href="https://github.com/JohnsonpaulG/Credit-Card-Approval-Prediction" target="_blank" rel="noopener noreferrer"
+     class="glass-card reveal" style="display:flex;align-items:center;gap:24px;text-decoration:none;flex-wrap:wrap;">
+    <div class="card-icon" style="margin:0;width:64px;height:64px;font-size:1.7rem;flex-shrink:0;">
+      <i class="fa-brands fa-github"></i>
+    </div>
+    <div style="flex:1;min-width:220px;">
+      <h3 style="margin-bottom:6px;">Credit Card Approval Prediction</h3>
+      <p class="muted small" style="margin:0;">github.com/JohnsonpaulG/Credit-Card-Approval-Prediction</p>
+    </div>
+    <span class="btn btn-primary">View on GitHub <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+  </a>
+
+  <!-- Project Overview -->
+  <div class="glass-card mt-3 reveal">
+    <h4 class="mb-2"><i class="fa-solid fa-circle-info" style="color:var(--brand-cyan)"></i> Project Overview</h4>
+    <p class="muted">CreditSense is a Flask-based web application that predicts credit card approval likelihood using a trained Random Forest model. It includes a multi-step prediction wizard, a live analytics dashboard, prediction history, and an ML model comparison page. This guide walks you through running the full project on your own machine.</p>
+  </div>
+
+  <!-- System Requirements -->
+  <div class="glass-card mt-3 reveal">
+    <h4 class="mb-2"><i class="fa-solid fa-list-check" style="color:var(--brand-cyan)"></i> System Requirements</h4>
+    <div class="review-item"><span class="k">Python Version</span><span class="v">3.11.x (recommended) or 3.10+</span></div>
+    <div class="review-item"><span class="k">Package Manager</span><span class="v">pip (bundled with Python)</span></div>
+    <div class="review-item"><span class="k">Operating System</span><span class="v">Windows, macOS, or Linux</span></div>
+    <div class="review-item"><span class="k">Required Packages</span><span class="v">Flask, scikit-learn, pandas, numpy, gunicorn, fpdf2</span></div>
+    <p class="muted small mt-2">All required packages are pinned in <code>requirements.txt</code> — you don't need to install them individually.</p>
+  </div>
+
+  <!-- Step-by-step setup -->
+  <div class="glass-card mt-3 reveal">
+    <h4 class="mb-3"><i class="fa-solid fa-terminal" style="color:var(--brand-cyan)"></i> Step-by-Step Local Setup</h4>
+
+    <div class="flow-step" style="padding-bottom:26px;">
+      <div class="flow-num">1</div>
+      <div class="flow-content">
+        <h4>Clone the repository</h4>
+        <pre class="code-block">git clone https://github.com/JohnsonpaulG/Credit-Card-Approval-Prediction.git
+cd Credit-Card-Approval-Prediction</pre>
+      </div>
+    </div>
+
+    <div class="flow-step" style="padding-bottom:26px;">
+      <div class="flow-num">2</div>
+      <div class="flow-content">
+        <h4>Create a virtual environment</h4>
+        <pre class="code-block"># Windows
+python -m venv venv
+venv\Scripts\activate
+
+# macOS / Linux
+python3 -m venv venv
+source venv/bin/activate</pre>
+      </div>
+    </div>
+
+    <div class="flow-step" style="padding-bottom:26px;">
+      <div class="flow-num">3</div>
+      <div class="flow-content">
+        <h4>Install dependencies</h4>
+        <pre class="code-block">pip install -r requirements.txt</pre>
+      </div>
+    </div>
+
+    <div class="flow-step" style="padding-bottom:26px;">
+      <div class="flow-num">4</div>
+      <div class="flow-content">
+        <h4>Run the Flask application</h4>
+        <pre class="code-block">python app.py</pre>
+        <p class="muted small mt-1">This starts Flask's built-in development server on port 5000.</p>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="flow-num">5</div>
+      <div class="flow-content">
+        <h4>Open the app in your browser</h4>
+        <p class="muted small">Navigate to the default URL below. The app opens directly to the Home page.</p>
+        <div class="review-item"><span class="k">Default URL</span><span class="v"><code>http://localhost:5000</code></span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Folder Structure -->
+<div class="glass-card mt-3 reveal">
+    <h4 class="mb-3">
+        <i class="fa-solid fa-folder-tree" style="color: var(--brand-cyan);"></i>
+        Folder Structure
+    </h4>
+
+<pre class="folder-tree"><code>
+<span class="dir">CreditSense/</span>
+│
+├── app.py
+├── config.py
+├── README.md
+├── requirements.txt
+├── Procfile
+├── render.yaml
+├── runtime.txt
+│
+├── <span class="dir">datasets/</span>
+│   ├── application_record.csv
+│   └── credit_record.csv
+│
+├── <span class="dir">models/</span>
+│   ├── credit_card_approval_model.pkl
+│   ├── decision_threshold.pkl
+│   ├── feature_order.pkl
+│   ├── label_encoders.pkl
+│   └── scaler.pkl
+│
+├── <span class="dir">notebook/</span>
+│   └── Credit_Card_Approval_Prediction.ipynb
+│
+├── <span class="dir">instance/</span>
+│   └── creditsense.db
+│
+├── <span class="dir">static/</span>
+│   ├── <span class="dir">css/</span>
+│   │   ├── base.css
+│   │   ├── home.css
+│   │   ├── layout.css
+│   │   ├── pages.css
+│   │   └── wizard.css
+│   │
+│   ├── <span class="dir">images/</span>
+│   │   └── logo.svg
+│   │
+│   └── <span class="dir">js/</span>
+│       ├── charts.js
+│       ├── history.js
+│       ├── main.js
+│       └── wizard.js
+│   
+│   
+│
+├── <span class="dir">templates/</span>
+│   ├── about_project.html
+│   ├── about_us.html
+│   ├── base.html
+│   ├── contact.html
+│   ├── dashboard.html
+│   ├── features.html
+│   ├── github.html
+│   ├── history.html
+│   ├── how_it_works.html
+│   ├── index.html
+│   ├── ml_models.html
+│   ├── prediction.html
+│   ├── result.html
+│   │
+│   └── <span class="dir">partials/</span>
+│       ├── footer.html
+│       └── navbar.html
+│
+└── <span class="dir">utils/</span>
+    ├── database.py
+    ├── helpers.py
+    └── predictor.py
+</code></pre>
+</div>
+
+  <!-- How Prediction Works -->
+  <div class="glass-card mt-3 reveal">
+    <h4 class="mb-2"><i class="fa-solid fa-brain" style="color:var(--brand-cyan)"></i> How Prediction Works</h4>
+    <div class="timeline-v" style="max-width:100%;">
+      {% for step in ["Applicant fills the 5-step form (personal, employment, financial, credit info, review)","Flask receives the submission at POST /predict","Categorical fields are label-encoded and numeric fields are scaled using the saved encoders/scaler","The trained RandomForestClassifier scores the feature vector","The app derives confidence, risk category, credit limit and APR from the model's output","The prediction is stored in SQLite and shown on the Result page with a plain-language AI explanation"] %}
+      <div class="arch-step"><span class="arch-dot"></span><span>{{ step }}</span></div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Troubleshooting -->
+  <div class="glass-card mt-3 reveal">
+    <h4 class="mb-2"><i class="fa-solid fa-triangle-exclamation" style="color:var(--warning)"></i> Troubleshooting Common Errors</h4>
+    {% set issues = [
+      ("ModuleNotFoundError: No module named 'flask' (or fpdf, sklearn, etc.)","Your virtual environment isn't activated, or dependencies weren't installed. Activate venv, then run pip install -r requirements.txt again."),
+      ("Port 5000 already in use","Another process is using port 5000. Stop it, or run the app on a different port: set PORT=5001 (Windows) / export PORT=5001 (macOS/Linux), then python app.py."),
+      ("Model file not found / pickle load error","Make sure the model/ folder with all four .pkl files was cloned correctly and wasn't excluded by .gitignore or a shallow clone."),
+      ("scikit-learn version mismatch warning","The model was trained with scikit-learn 1.5.1. Install the exact pinned version from requirements.txt to avoid unpickling warnings or errors.")
+    ] %}
+    {% for q,a in issues %}
+    <div class="faq-item">
+      <div class="faq-q">{{ q }} <span class="plus">+</span></div>
+      <div class="faq-a"><p>{{ a }}</p></div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Deployment -->
+  <div class="glass-card mt-3 reveal">
+    <h4 class="mb-2"><i class="fa-solid fa-cloud-arrow-up" style="color:var(--brand-cyan)"></i> Deployment (Render)</h4>
+    <pre class="code-block">Build Command: pip install -r requirements.txt
+Start Command: gunicorn app:app --workers 2 --threads 4 --timeout 120</pre>
+    <p class="muted small mt-2">A ready-to-use <code>render.yaml</code> is included at the project root for one-click Render deployment.</p>
+  </div>
+
+  <!-- Core Technologies -->
+  <div class="glass-card mt-3 reveal">
+    <h4 class="mb-2"><i class="fa-solid fa-layer-group" style="color:var(--brand-cyan)"></i> Core Technologies</h4>
+    <div class="flex gap-1" style="flex-wrap:wrap">
+      {% for t in ["Flask 3","scikit-learn","Pandas","NumPy","Gunicorn","SQLite","Chart.js","Font Awesome"] %}
+      <span class="badge badge-info">{{ t }}</span>
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

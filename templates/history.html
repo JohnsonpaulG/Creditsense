@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Prediction History | CreditSense{% endblock %}
+{% block content %}
+
+<div class="container" style="padding-top:calc(var(--nav-h) + 40px)">
+
+  <div class="page-header">
+    <div>
+      <span class="kicker"><span class="dot"></span> Full Log</span>
+      <h1 style="font-size:2rem">Prediction History</h1>
+      <p class="muted">Every prediction ever generated, stored for search, filtering and export.</p>
+    </div>
+    <a href="{{ url_for('export_history_csv') }}" class="btn btn-primary"><i class="fa-solid fa-file-csv"></i> Export CSV</a>
+  </div>
+
+  <div class="glass-card">
+    <div class="table-toolbar">
+      <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass ic"></i>
+        <input type="text" id="history-search" placeholder="Search by applicant name...">
+      </div>
+      <div class="flex gap-1" id="history-filters">
+        <span class="filter-chip active" data-filter="all">All</span>
+        <span class="filter-chip" data-filter="approved">Approved</span>
+        <span class="filter-chip" data-filter="declined">Declined</span>
+        <span class="filter-chip" data-filter="low">Low Risk</span>
+        <span class="filter-chip" data-filter="high">High Risk</span>
+      </div>
+    </div>
+
+    {% if rows %}
+    <div class="table-scroll">
+      <table class="data-table" id="history-table">
+        <thead>
+          <tr>
+            <th data-sort="id">ID</th>
+            <th data-sort="date">Date</th>
+            <th data-sort="name">Applicant</th>
+            <th data-sort="pred">Prediction</th>
+            <th data-sort="conf">Confidence</th>
+            <th data-sort="risk">Risk</th>
+            <th data-sort="model">Model Used</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in rows %}
+          <tr data-name="{{ r.applicant_name|lower }}" data-status="{{ 'approved' if r.approved else 'declined' }}" data-risk="{{ r.risk_category|lower|replace(' ','-') }}">
+            <td>#{{ "%06d"|format(r.id) }}</td>
+            <td>{{ r.created_at[:16]|replace('T',' ') }}</td>
+            <td>{{ r.applicant_name }}</td>
+            <td><span class="badge {{ 'badge-success' if r.approved else 'badge-danger' }}">{{ r.prediction }}</span></td>
+            <td>{{ r.confidence }}%</td>
+            <td>
+              <span class="badge {{ 'badge-success' if 'Low' in r.risk_category else ('badge-warning' if 'Moderate' in r.risk_category else 'badge-danger') }}">{{ r.risk_category }}</span>
+            </td>
+            <td>{{ r.model_used }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="pagination" id="history-pagination"></div>
+    {% else %}
+    <div class="empty-state">
+      <div class="ic"><i class="fa-solid fa-inbox"></i></div>
+      <h4>No predictions yet</h4>
+      <p>Run your first prediction to see it appear here.</p>
+      <a href="{{ url_for('prediction') }}" class="btn btn-primary mt-3">Start Prediction</a>
+    </div>
+    {% endif %}
+  </div>
+
+</div>
+
+{% endblock %}
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/history.js') }}"></script>
+{% endblock %}

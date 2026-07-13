@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | CreditSense{% endblock %}
+{% block content %}
+
+<div class="container" style="padding-top:calc(var(--nav-h) + 40px)">
+
+  <div class="page-header">
+    <div>
+      <span class="kicker"><span class="dot"></span> Live Analytics</span>
+      <h1 style="font-size:2rem">Prediction Dashboard</h1>
+      <p class="muted">Real-time overview of every prediction processed by CreditSense.</p>
+    </div>
+    <a href="{{ url_for('prediction') }}" class="btn btn-primary"><i class="fa-solid fa-plus"></i> New Prediction</a>
+  </div>
+
+  <!-- Stat Cards -->
+  <div class="dash-grid">
+    <div class="dash-card glass-card reveal">
+      <div class="top"><span class="ic" style="background:var(--grad-primary)"><i class="fa-solid fa-users"></i></span></div>
+      <div class="num" data-count="{{ stats.total }}">0</div><div class="lbl">Total Predictions</div>
+    </div>
+    <div class="dash-card glass-card reveal reveal-delay-1">
+      <div class="top"><span class="ic" style="background:var(--success)"><i class="fa-solid fa-circle-check"></i></span></div>
+      <div class="num" data-count="{{ stats.approval_rate }}" data-decimals="1" data-suffix="%">0</div><div class="lbl">Approval Rate</div>
+    </div>
+    <div class="dash-card glass-card reveal reveal-delay-2">
+      <div class="top"><span class="ic" style="background:var(--danger)"><i class="fa-solid fa-circle-xmark"></i></span></div>
+      <div class="num" data-count="{{ stats.rejection_rate }}" data-decimals="1" data-suffix="%">0</div><div class="lbl">Rejection Rate</div>
+    </div>
+    <div class="dash-card glass-card reveal reveal-delay-3">
+      <div class="top"><span class="ic" style="background:var(--grad-cyan);color:#04202a"><i class="fa-solid fa-sack-dollar"></i></span></div>
+      <div class="num">${{ "{:,.0f}".format(stats.avg_income) }}</div><div class="lbl">Average Income</div>
+    </div>
+
+    <div class="dash-card glass-card reveal">
+      <div class="top"><span class="ic" style="background:var(--brand-violet)"><i class="fa-solid fa-cake-candles"></i></span></div>
+      <div class="num">{{ stats.avg_age }}</div><div class="lbl">Average Age</div>
+    </div>
+    <div class="dash-card glass-card reveal reveal-delay-1">
+      <div class="top"><span class="ic" style="background:var(--grad-primary)"><i class="fa-solid fa-database"></i></span></div>
+      <div class="num">11,106</div><div class="lbl">Dataset Size</div>
+    </div>
+    <div class="dash-card glass-card reveal reveal-delay-2">
+      <div class="top"><span class="ic" style="background:var(--success)"><i class="fa-solid fa-bullseye"></i></span></div>
+      <div class="num">{{ primary_accuracy }}%</div><div class="lbl">Model Accuracy</div>
+    </div>
+    <div class="dash-card glass-card reveal reveal-delay-3">
+      <div class="top"><span class="ic" style="background:var(--info)"><i class="fa-solid fa-server"></i></span></div>
+      <div class="num"><span class="status-dot on"></span>Online</div><div class="lbl">System Status</div>
+    </div>
+  </div>
+
+  {% if stats.latest %}
+  <div class="glass-card mb-4 reveal" style="padding:22px 26px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;">
+    <div class="flex items-center gap-2">
+      <span class="card-icon" style="margin:0;width:44px;height:44px;font-size:1.1rem;"><i class="fa-solid fa-clock"></i></span>
+      <div>
+        <div class="small muted">Latest Prediction</div>
+        <strong>{{ stats.latest.applicant_name }} — {{ stats.latest.prediction }}</strong>
+      </div>
+    </div>
+    <span class="badge {{ 'badge-success' if stats.latest.approved else 'badge-danger' }}">{{ stats.latest.confidence }}% confidence</span>
+  </div>
+  {% endif %}
+
+  <!-- Charts row 1 -->
+  <div class="chart-grid">
+    <div class="chart-card glass-card reveal">
+      <h4>Approval vs Rejection</h4>
+      <div class="chart-box"><canvas id="chart-approval-split"></canvas></div>
+    </div>
+    <div class="chart-card glass-card reveal reveal-delay-1">
+      <h4>Prediction Trends (14 Days)</h4>
+      <div class="chart-box"><canvas id="chart-prediction-trends"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Charts row 2 -->
+  <div class="chart-grid">
+    <div class="chart-card glass-card reveal">
+      <h4>Income Distribution</h4>
+      <div class="chart-box"><canvas id="chart-income-dist"></canvas></div>
+    </div>
+    <div class="chart-card glass-card reveal reveal-delay-1">
+      <h4>Education Distribution</h4>
+      <div class="chart-box"><canvas id="chart-education-dist"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Charts row 3 -->
+  <div class="chart-grid">
+    <div class="chart-card glass-card reveal">
+      <h4>Employment Type Distribution</h4>
+      <div class="chart-box tall"><canvas id="chart-employment-dist"></canvas></div>
+    </div>
+    <div class="chart-card glass-card reveal reveal-delay-1">
+      <h4>Feature Importance</h4>
+      <div class="chart-box tall"><canvas id="chart-feature-importance"></canvas></div>
+    </div>
+  </div>
+
+  <div class="chart-card glass-card reveal mb-4">
+    <h4>Model Accuracy Comparison</h4>
+    <div class="chart-box"><canvas id="chart-model-accuracy"></canvas></div>
+  </div>
+
+  <!-- Recent predictions mini table -->
+  <div class="glass-card reveal mb-4">
+    <div class="flex justify-between items-center mb-3">
+      <h4 style="margin:0">Recent Predictions</h4>
+      <a href="{{ url_for('history') }}" class="btn btn-ghost btn-sm">View All <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+    <div class="table-scroll">
+      <table class="data-table">
+        <thead><tr><th>ID</th><th>Applicant</th><th>Prediction</th><th>Confidence</th><th>Risk</th><th>Date</th></tr></thead>
+        <tbody>
+        {% for r in rows %}
+          <tr>
+            <td>#{{ "%06d"|format(r.id) }}</td>
+            <td>{{ r.applicant_name }}</td>
+            <td><span class="badge {{ 'badge-success' if r.approved else 'badge-danger' }}">{{ r.prediction }}</span></td>
+            <td>{{ r.confidence }}%</td>
+            <td>{{ r.risk_category }}</td>
+            <td>{{ r.created_at[:10] }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}
+{% block extra_js %}
+<script>window.DASHBOARD_DATA = {{ chart_data | tojson }};</script>
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+{% endblock %}

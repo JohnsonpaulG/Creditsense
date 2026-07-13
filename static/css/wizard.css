@@ -1,0 +1,132 @@
+/* =====================================================================
+   Multi-step Wizard
+   ===================================================================== */
+.wizard-wrap { max-width: 920px; margin: 0 auto; padding: calc(var(--nav-h) + 40px) 20px 80px; }
+
+.wizard-steps {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 46px; position: relative;
+}
+.wizard-steps::before {
+  content: ""; position: absolute; top: 22px; left: 6%; right: 6%; height: 2px;
+  background: var(--border-glass); z-index: 0;
+}
+.wizard-steps .progress-line {
+  position: absolute; top: 22px; left: 6%; height: 2px;
+  background: var(--grad-primary); z-index: 1; width: 0%;
+  transition: width .5s var(--ease);
+}
+.w-step { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 10px; flex: 1; }
+.w-step .circ {
+  width: 44px; height: 44px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg-1); border: 2px solid var(--border-glass-strong);
+  font-weight: 800; color: var(--text-2);
+  transition: all .4s var(--ease);
+}
+.w-step span.lbl { font-size: 0.76rem; color: var(--text-muted); font-weight: 600; text-align:center; }
+.w-step.active .circ { border-color: var(--brand-blue); background: var(--grad-primary); color: #fff; box-shadow: var(--shadow-glow-blue); transform: scale(1.1);}
+.w-step.active span.lbl { color: var(--text-0); }
+.w-step.done .circ { background: var(--success); border-color: var(--success); color: #fff; }
+.w-step.done .circ::after { content: "✓"; }
+.w-step.done .circ span { display:none; }
+@media (max-width: 700px) { .w-step span.lbl { display: none; } }
+
+.wizard-card { padding: 40px; }
+@media (max-width: 600px) { .wizard-card { padding: 26px 20px; } }
+
+.wizard-panel { display: none; animation: fadeUp .5s var(--ease) both; }
+.wizard-panel.active { display: block; }
+.wizard-panel h3 { font-size: 1.5rem; margin-bottom: 6px; }
+.wizard-panel > p.sub { color: var(--text-2); margin-bottom: 30px; }
+
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+@media (max-width: 620px) { .form-grid { grid-template-columns: 1fr; } }
+.field { display: flex; flex-direction: column; gap: 8px; }
+.field.full { grid-column: 1 / -1; }
+.field label { font-size: 0.85rem; font-weight: 700; color: var(--text-1); }
+.field label .req { color: var(--danger); }
+.field small.hint { color: var(--text-muted); font-size: 0.76rem; }
+
+.field input, .field select {
+  padding: 14px 16px; border-radius: var(--radius-sm);
+  background: var(--surface); border: 1.5px solid var(--border-glass);
+  color: var(--text-0); font-size: 0.95rem; font-family: inherit;
+  transition: border-color .25s, box-shadow .25s, background .25s;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.field select {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'><path d='M1 1l6 6 6-6' stroke='%2394a3b8' stroke-width='2' fill='none' fill-rule='evenodd'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 40px;
+}
+/* Native <option> popups are rendered by the OS/browser chrome and mostly
+   ignore the parent's translucent glass background, so we explicitly force
+   readable, high-contrast colors on every option regardless of theme. */
+.field select option {
+  color: #0f172a;
+  background: #ffffff;
+}
+.field select option:checked,
+.field select option:hover,
+.field select option:focus {
+  color: #ffffff;
+  background: var(--brand-blue);
+}
+.field select:invalid,
+.field select option[value=""][disabled] {
+  color: var(--text-muted);
+}
+.field input:focus, .field select:focus {
+  outline: none; border-color: var(--brand-blue);
+  box-shadow: 0 0 0 4px rgba(59,130,246,0.18);
+  background: var(--surface-strong);
+}
+.field input::placeholder { color: var(--text-muted); }
+.field.error input, .field.error select { border-color: var(--danger); }
+.field .err-msg { color: var(--danger); font-size: 0.76rem; display: none; }
+.field.error .err-msg { display: block; }
+
+.choice-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.choice-card {
+  padding: 16px; border-radius: var(--radius-sm);
+  background: var(--surface); border: 1.5px solid var(--border-glass);
+  cursor: pointer; text-align: center; font-weight: 700; font-size: 0.9rem;
+  transition: all .25s var(--ease);
+}
+.choice-card:hover { border-color: var(--border-glass-strong); transform: translateY(-2px); }
+.choice-card.selected { border-color: var(--brand-blue); background: rgba(59,130,246,0.14); color: var(--brand-cyan); }
+
+.wizard-nav { display: flex; justify-content: space-between; margin-top: 40px; gap: 14px; }
+
+.review-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 30px; }
+@media (max-width: 620px) { .review-grid { grid-template-columns: 1fr; } }
+.review-item { display: flex; justify-content: space-between; padding: 14px 0; border-bottom: 1px dashed var(--border-glass); }
+.review-item .k { color: var(--text-2); font-size: 0.86rem; }
+.review-item .v { font-weight: 700; }
+
+.consent-box {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 16px; border-radius: var(--radius-sm);
+  background: var(--info-bg); border: 1px solid rgba(34,211,238,0.25);
+  margin-top: 24px; font-size: 0.85rem; color: var(--text-1);
+}
+
+/* Loading overlay while "AI is deciding" */
+#predict-loading {
+  position: fixed; inset: 0; z-index: 5000;
+  background: rgba(6,10,31,0.82); backdrop-filter: blur(6px);
+  display: none; align-items: center; justify-content: center; flex-direction: column; gap: 22px;
+}
+#predict-loading.show { display: flex; }
+.ai-ring {
+  width: 96px; height: 96px; border-radius: 50%;
+  border: 4px solid var(--border-glass);
+  border-top-color: var(--brand-cyan);
+  border-right-color: var(--brand-blue);
+  animation: spin 1s linear infinite;
+}
+#predict-loading p { color: var(--text-1); font-weight: 600; }
+#predict-loading .step-msgs { font-size: 0.82rem; color: var(--text-muted); min-height: 20px; }

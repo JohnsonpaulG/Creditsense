@@ -1,0 +1,50 @@
+{% set more_endpoints = ['about_project', 'about_us', 'github', 'contact'] %}
+<nav class="navbar">
+  <div class="container">
+    <a href="{{ url_for('index') }}" class="brand">
+      <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="CreditSense logo" class="brand-mark">
+      CreditSense
+    </a>
+
+    <div class="nav-center">
+      <div class="nav-links">
+        <a href="{{ url_for('index') }}" class="{{ 'active' if request.endpoint == 'index' }}">Home</a>
+        <a href="{{ url_for('dashboard') }}" class="{{ 'active' if request.endpoint == 'dashboard' }}">Dashboard</a>
+        <a href="{{ url_for('history') }}" class="{{ 'active' if request.endpoint == 'history' }}">History</a>
+        <a href="{{ url_for('ml_models') }}" class="{{ 'active' if request.endpoint == 'ml_models' }}">ML Models</a>
+        <a href="{{ url_for('features') }}" class="{{ 'active' if request.endpoint == 'features' }}">Features</a>
+        <a href="{{ url_for('how_it_works') }}" class="{{ 'active' if request.endpoint == 'how_it_works' }}">How It Works</a>
+      </div>
+
+      <div class="nav-more {{ 'active' if request.endpoint in more_endpoints }}">
+        <button class="nav-more-btn">More <i class="fa-solid fa-chevron-down" style="font-size:.7rem"></i></button>
+        <div class="nav-more-menu">
+          <a href="{{ url_for('about_project') }}" class="{{ 'active' if request.endpoint == 'about_project' }}"><i class="fa-solid fa-diagram-project"></i> About Project</a>
+          <a href="{{ url_for('about_us') }}" class="{{ 'active' if request.endpoint == 'about_us' }}"><i class="fa-solid fa-users"></i> About Us</a>
+          <a href="{{ url_for('github') }}" class="{{ 'active' if request.endpoint == 'github' }}"><i class="fa-brands fa-github"></i> GitHub</a>
+          <a href="{{ url_for('contact') }}" class="{{ 'active' if request.endpoint == 'contact' }}"><i class="fa-solid fa-headset"></i> Contact Support</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <button class="icon-btn theme-toggle-btn" title="Toggle theme"><i class="fa-solid fa-moon"></i></button>
+      <a href="{{ url_for('prediction') }}" class="btn btn-primary btn-sm">Check Eligibility</a>
+      <button class="nav-burger" id="nav-burger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="{{ url_for('index') }}" class="{{ 'active' if request.endpoint == 'index' }}"><i class="fa-solid fa-house"></i> Home</a>
+  <a href="{{ url_for('dashboard') }}" class="{{ 'active' if request.endpoint == 'dashboard' }}"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+  <a href="{{ url_for('history') }}" class="{{ 'active' if request.endpoint == 'history' }}"><i class="fa-solid fa-clock-rotate-left"></i> History</a>
+  <a href="{{ url_for('ml_models') }}" class="{{ 'active' if request.endpoint == 'ml_models' }}"><i class="fa-solid fa-robot"></i> ML Models</a>
+  <a href="{{ url_for('how_it_works') }}" class="{{ 'active' if request.endpoint == 'how_it_works' }}"><i class="fa-solid fa-diagram-project"></i> How It Works</a>
+  <a href="{{ url_for('features') }}" class="{{ 'active' if request.endpoint == 'features' }}"><i class="fa-solid fa-star"></i> Features</a>
+  <a href="{{ url_for('about_project') }}" class="{{ 'active' if request.endpoint == 'about_project' }}"><i class="fa-solid fa-file-lines"></i> About Project</a>
+  <a href="{{ url_for('about_us') }}" class="{{ 'active' if request.endpoint == 'about_us' }}"><i class="fa-solid fa-users"></i> About Us</a>
+  <a href="{{ url_for('github') }}" class="{{ 'active' if request.endpoint == 'github' }}"><i class="fa-brands fa-github"></i> GitHub</a>
+  <a href="{{ url_for('contact') }}" class="{{ 'active' if request.endpoint == 'contact' }}"><i class="fa-solid fa-headset"></i> Contact Support</a>
+  <a href="{{ url_for('prediction') }}" class="btn btn-primary btn-block mt-3">Check Eligibility</a>
+</div>
